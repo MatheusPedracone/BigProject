@@ -41,7 +41,6 @@ namespace MyApp.Api.Contrato.Implementations
         }
         public async Task<EventoDto> UpdateEvento(int eventoId, EventoDto model)
         {
-           
             try
             {
                 var evento = await _eventoRepository.GetEventoByIdAsync(eventoId, false);
@@ -50,17 +49,22 @@ namespace MyApp.Api.Contrato.Implementations
 
                 model.Id = evento.Id;
 
-                _geralRepository.Update(model);
+                _mapper.Map(model, evento);
+
+                _geralRepository.Update<Evento>(evento);
+
                 if (await _geralRepository.SaveChangesAsync())
                 {
-                    return await _eventoRepository.GetEventoByIdAsync(model.Id, false);
+                    var eventoRetorno = await _eventoRepository.GetEventoByIdAsync(evento.Id, false);
+
+                    return _mapper.Map<EventoDto>(eventoRetorno);
                 }
                 return null;
             }
             catch (Exception ex)
             {
                 throw new Exception(ex.Message);
-            }c
+            }
         }
         public async Task<bool> DeleteEvento(int eventoId)
         {

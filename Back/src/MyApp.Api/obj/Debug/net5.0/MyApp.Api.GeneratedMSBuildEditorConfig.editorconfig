@@ -7,4 +7,4 @@ build_property.PublishSingleFile =
 build_property.IncludeAllContentForSelfExtract = 
 build_property._SupportedPlatformList = Android,iOS,Linux,macOS,Windows
 build_property.RootNamespace = MyApp.Api
-build_property.ProjectDir = c:\Users\matheus\Desktop\BigProject\Back\src\MyApp.Api\
+build_property.ProjectDir = C:\Users\matheus\Desktop\BigProject\Back\src\MyApp.Api\

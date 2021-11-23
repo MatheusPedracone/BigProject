@@ -9,6 +9,9 @@ namespace MyApp.Api.Helpers
         public NewAppProfile()
         {
             CreateMap<Evento, EventoDto>().ReverseMap();
+            CreateMap<Lote, LoteDto>().ReverseMap();
+            CreateMap<RedeSocial, RedeSocialDto>().ReverseMap();
+            CreateMap<Palestrante, PalestranteDto>().ReverseMap();
         }
     }
 }
