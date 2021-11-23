@@ -26,7 +26,7 @@ namespace MyApp.Api.Controllers
             try
             {
                 var eventos = await _eventoService.GetAllEventosAsync(true);
-                if (eventos == null) return NotFound("Nenhum evento encontrado!");
+                if (eventos == null) return NoContent();
 
                 return Ok(eventos);
             }
@@ -43,7 +43,7 @@ namespace MyApp.Api.Controllers
             try
             {
                 var eventos = await _eventoService.GetEventoByIdAsync(id, true);
-                if (eventos == null) return NotFound("Nenhum evento encontrado!");
+                if (eventos == null) return NoContent();
 
                 return Ok(eventos);
             }
@@ -60,7 +60,7 @@ namespace MyApp.Api.Controllers
             try
             {
                 var eventos = await _eventoService.GetAllEventosByTemaAsync(tema, true);
-                if (eventos == null) return NotFound("Nenhum evento encontrado!");
+                if (eventos == null) return NoContent();
 
                 return Ok(eventos);
             }
@@ -77,7 +77,7 @@ namespace MyApp.Api.Controllers
             try
             {
                 var eventos = await _eventoService.AddEventos(model);
-                if (eventos == null) return BadRequest("Erro ao tentar adicionar evento!");
+                if (eventos == null) return NoContent();
 
                 return Ok(eventos);
             }
@@ -94,7 +94,7 @@ namespace MyApp.Api.Controllers
             try
             {
                 var evento = await _eventoService.UpdateEvento(id, model);
-                if (evento == null) return BadRequest("Erro ao tentar adicionar evento!");
+                if (evento == null) return NoContent();
 
                 return Ok(evento);
             }
