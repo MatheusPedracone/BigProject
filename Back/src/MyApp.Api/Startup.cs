@@ -38,8 +38,10 @@ namespace MyApp.Api
             services.AddAutoMapper(AppDomain.CurrentDomain.GetAssemblies());
             
             services.AddScoped<IEventoService, EventoService>();
+            services.AddScoped<ILoteService, LoteService>();
             services.AddScoped<IGeralRepository, GeralRepository>();
             services.AddScoped<IEventoRepository, EventoRepository>();
+            services.AddScoped<ILoteRepository, LoteRepository>();
 
             services.AddCors();
             services.AddSwaggerGen(c =>
