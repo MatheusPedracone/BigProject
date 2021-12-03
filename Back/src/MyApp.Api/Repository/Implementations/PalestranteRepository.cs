@@ -44,7 +44,7 @@ namespace MyApp.Api.Repository.Implementations
                     .ThenInclude(pe => pe.Evento);
             }
 
-            query = query.OrderBy(p => p.Id).Where(p => p.Nome.Contains(nome, System.StringComparison.OrdinalIgnoreCase));
+            query = query.OrderBy(p => p.Id).Where(p => p.User.FirstName.ToLower().Contains(nome.ToLower()));
 
             return await query.ToListAsync();
         }

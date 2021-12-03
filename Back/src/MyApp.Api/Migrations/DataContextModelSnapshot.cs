@@ -15,7 +15,62 @@ namespace MyApp.Api.Migrations
 #pragma warning disable 612, 618
             modelBuilder
                 .HasAnnotation("Relational:MaxIdentifierLength", 64)
-                .HasAnnotation("ProductVersion", "5.0.11");
+                .HasAnnotation("ProductVersion", "5.0.10");
+
+            modelBuilder.Entity("MyApp.Api.Identity.Role", b =>
+                {
+                    b.Property<Guid>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("char(36)");
+
+                    b.HasKey("Id");
+
+                    b.ToTable("Roles");
+                });
+
+            modelBuilder.Entity("MyApp.Api.Identity.User", b =>
+                {
+                    b.Property<Guid>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("char(36)");
+
+                    b.Property<string>("Descricao")
+                        .HasColumnType("longtext");
+
+                    b.Property<string>("FirstName")
+                        .HasColumnType("longtext");
+
+                    b.Property<int>("Func")
+                        .HasColumnType("int");
+
+                    b.Property<string>("ImagemPerfil")
+                        .HasColumnType("longtext");
+
+                    b.Property<string>("LastName")
+                        .HasColumnType("longtext");
+
+                    b.Property<int>("Titulo")
+                        .HasColumnType("int");
+
+                    b.HasKey("Id");
+
+                    b.ToTable("Users");
+                });
+
+            modelBuilder.Entity("MyApp.Api.Identity.UserRole", b =>
+                {
+                    b.Property<Guid>("UserId")
+                        .HasColumnType("char(36)");
+
+                    b.Property<Guid>("RoleId")
+                        .HasColumnType("char(36)");
+
+                    b.HasKey("UserId", "RoleId");
+
+                    b.HasIndex("RoleId");
+
+                    b.ToTable("UserRole");
+                });
 
             modelBuilder.Entity("MyApp.Api.Models.Evento", b =>
                 {
@@ -44,7 +99,12 @@ namespace MyApp.Api.Migrations
                     b.Property<string>("Tema")
                         .HasColumnType("longtext");
 
+                    b.Property<Guid>("UserId")
+                        .HasColumnType("char(36)");
+
                     b.HasKey("Id");
+
+                    b.HasIndex("UserId");
 
                     b.ToTable("Eventos");
                 });
@@ -86,22 +146,15 @@ namespace MyApp.Api.Migrations
                         .ValueGeneratedOnAdd()
                         .HasColumnType("int");
 
-                    b.Property<string>("Email")
-                        .HasColumnType("longtext");
-
-                    b.Property<string>("ImagemURL")
-                        .HasColumnType("longtext");
-
                     b.Property<string>("MiniCurriculo")
                         .HasColumnType("longtext");
 
-                    b.Property<string>("Nome")
-                        .HasColumnType("longtext");
-
-                    b.Property<string>("Telefone")
-                        .HasColumnType("longtext");
+                    b.Property<Guid>("UserId")
+                        .HasColumnType("char(36)");
 
                     b.HasKey("Id");
+
+                    b.HasIndex("UserId");
 
                     b.ToTable("Palestrantes");
                 });
@@ -148,6 +201,36 @@ namespace MyApp.Api.Migrations
                     b.ToTable("RedesSociais");
                 });
 
+            modelBuilder.Entity("MyApp.Api.Identity.UserRole", b =>
+                {
+                    b.HasOne("MyApp.Api.Identity.Role", "Role")
+                        .WithMany("UserRoles")
+                        .HasForeignKey("RoleId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.HasOne("MyApp.Api.Identity.User", "User")
+                        .WithMany("UserRoles")
+                        .HasForeignKey("UserId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("Role");
+
+                    b.Navigation("User");
+                });
+
+            modelBuilder.Entity("MyApp.Api.Models.Evento", b =>
+                {
+                    b.HasOne("MyApp.Api.Identity.User", "User")
+                        .WithMany()
+                        .HasForeignKey("UserId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("User");
+                });
+
             modelBuilder.Entity("MyApp.Api.Models.Lote", b =>
                 {
                     b.HasOne("MyApp.Api.Models.Evento", "Evento")
@@ -157,6 +240,17 @@ namespace MyApp.Api.Migrations
                         .IsRequired();
 
                     b.Navigation("Evento");
+                });
+
+            modelBuilder.Entity("MyApp.Api.Models.Palestrante", b =>
+                {
+                    b.HasOne("MyApp.Api.Identity.User", "User")
+                        .WithMany()
+                        .HasForeignKey("UserId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("User");
                 });
 
             modelBuilder.Entity("MyApp.Api.Models.PalestranteEvento", b =>
@@ -182,15 +276,27 @@ namespace MyApp.Api.Migrations
                 {
                     b.HasOne("MyApp.Api.Models.Evento", "Evento")
                         .WithMany("RedesSociais")
-                        .HasForeignKey("EventoId");
+                        .HasForeignKey("EventoId")
+                        .OnDelete(DeleteBehavior.Cascade);
 
                     b.HasOne("MyApp.Api.Models.Palestrante", "Palestrante")
                         .WithMany("RedesSociais")
-                        .HasForeignKey("PalestranteId");
+                        .HasForeignKey("PalestranteId")
+                        .OnDelete(DeleteBehavior.Cascade);
 
                     b.Navigation("Evento");
 
                     b.Navigation("Palestrante");
+                });
+
+            modelBuilder.Entity("MyApp.Api.Identity.Role", b =>
+                {
+                    b.Navigation("UserRoles");
+                });
+
+            modelBuilder.Entity("MyApp.Api.Identity.User", b =>
+                {
+                    b.Navigation("UserRoles");
                 });
 
             modelBuilder.Entity("MyApp.Api.Models.Evento", b =>

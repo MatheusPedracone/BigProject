@@ -20,7 +20,7 @@ export class EventoListarComponent implements OnInit {
   showImages = true;
   private filtroListado = '';
   modalRef?: BsModalRef;
-
+  eventoId = 0;
   public get filtroLista() {
     return this.filtroListado;
   }
@@ -74,7 +74,9 @@ export class EventoListarComponent implements OnInit {
     );
   }
 
-  openModal(template: TemplateRef<any>) {
+  openModal(event: any,template: TemplateRef<any>, eventoId: number) {
+ event.stopPropagation();
+    this.eventoId = eventoId
     this.modalRef = this.modalService.show(template, { class: 'modal-sm' });
   }
 

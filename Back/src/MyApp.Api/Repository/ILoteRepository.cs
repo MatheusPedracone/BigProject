@@ -20,6 +20,6 @@ namespace MyApp.Api.Repository
         /// <param name="eventoId"></param>
         /// <param name="id"></param>
         /// <returns>1 lote</returns>
-        Task<Lote> GetLoteByIdAsync(int eventoId, int id);
+        Task<Lote> GetLoteByIdAsync(int eventoId, int loteId);
     }
 }

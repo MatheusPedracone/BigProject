@@ -1,7 +1,7 @@
 import { NgModule, CUSTOM_ELEMENTS_SCHEMA } from '@angular/core';
 import { BrowserModule } from '@angular/platform-browser';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
-import  { HttpClientModule } from '@angular/common/http'
+import { HttpClientModule } from '@angular/common/http';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 
 import { TooltipModule } from 'ngx-bootstrap/tooltip';
@@ -9,9 +9,12 @@ import { BsDropdownModule } from 'ngx-bootstrap/dropdown';
 import { CollapseModule } from 'ngx-bootstrap/collapse';
 import { ModalModule } from 'ngx-bootstrap/modal';
 
-import { ToastrModule } from 'ngx-toastr';
-import { NgxSpinnerModule } from "ngx-spinner";
+import { defineLocale } from 'ngx-bootstrap/chronos';
+import { ptBrLocale } from 'ngx-bootstrap/locale';
+import { BsDatepickerModule } from 'ngx-bootstrap/datepicker';
 
+import { ToastrModule } from 'ngx-toastr';
+import { NgxSpinnerModule } from 'ngx-spinner';
 
 import { AppRoutingModule } from './app-routing.module';
 import { ContatosComponent } from './componets/contatos/contatos.component';
@@ -31,7 +34,7 @@ import { UserComponent } from './componets/user/user.component';
 import { LoginComponent } from './componets/user/login/login.component';
 import { RegistrationComponent } from './componets/user/registration/registration.component';
 
-
+defineLocale('pt-br', ptBrLocale);
 
 @NgModule({
   declarations: [
@@ -49,7 +52,7 @@ import { RegistrationComponent } from './componets/user/registration/registratio
     EventoDetalheComponent,
     UserComponent,
     LoginComponent,
-    RegistrationComponent
+    RegistrationComponent,
   ],
   imports: [
     BrowserModule,
@@ -62,15 +65,15 @@ import { RegistrationComponent } from './componets/user/registration/registratio
     TooltipModule.forRoot(),
     BsDropdownModule.forRoot(),
     ModalModule.forRoot(),
-    NgxSpinnerModule,
+    BsDatepickerModule.forRoot(),
     ToastrModule.forRoot({
       timeOut: 4000,
       positionClass: 'toast-bottom-right',
       preventDuplicates: true,
-      progressBar: true
+      progressBar: true,
     }),
-
-    ],
+    NgxSpinnerModule,
+  ],
   providers: [EventoService],
   bootstrap: [AppComponent],
   schemas: [CUSTOM_ELEMENTS_SCHEMA],

@@ -1,5 +1,13 @@
 import { Component, OnInit } from '@angular/core';
-import { FormBuilder, FormGroup, Validators } from '@angular/forms';
+import { FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
+import { ActivatedRoute } from '@angular/router';
+
+import { BsLocaleService } from 'ngx-bootstrap/datepicker';
+import { NgxSpinnerService } from 'ngx-spinner';
+import { ToastrService } from 'ngx-toastr';
+
+import { Evento } from 'src/app/models/Evento';
+import { EventoService } from 'src/app/services/Evento.service';
 
 @Component({
   selector: 'new FormControl(),evento-detalhe',
@@ -9,14 +17,55 @@ import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 export class EventoDetalheComponent implements OnInit {
   form!: FormGroup;
 
+  evento = {} as Evento;
+
+  locale = 'pt-br';
+
   get f(): any {
     return this.form.controls;
   }
 
-  constructor(private fb: FormBuilder) {}
+  get bsConfig(): any {
+    return {
+      dateInputFormat: 'DD/MM/YYYY hh:mm A',
+      containerClass: 'theme-default',
+      showWeekNumbers: false,
+      adaptivePosition: true,
+    };
+  }
+
+  constructor(
+    private fb: FormBuilder,
+    private localeService: BsLocaleService,
+    private router: ActivatedRoute,
+    private eventoService: EventoService,
+    private toastr: ToastrService,
+  ) {
+    this.localeService.use(this.locale);
+  }
+
+  public loadEvento(): void {
+    const eventoIdParam = this.router.snapshot.paramMap.get('id');
+
+    if (eventoIdParam !== null) {
+
+      this.eventoService.getEventoById(+eventoIdParam).subscribe({
+      next: (evento: Evento) => {
+        this.evento = {...evento};
+          this.form.patchValue(this.evento);
+        },
+        error: (error) => {
+          this.toastr.error('Evento não encontrado.', 'Erro!');
+          console.error(error);
+        },
+        complete: () => {}
+      });
+    }
+  }
 
   ngOnInit(): void {
     this.validation();
+    this.loadEvento();
   }
 
   public validation(): void {
